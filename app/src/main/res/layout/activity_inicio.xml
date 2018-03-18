@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#72bcd4"
     tools:context="com.example.bruno.monday.Inicio">
 
     <EditText
@@ -14,8 +15,10 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="172dp"
         android:ems="10"
+        android:textColor="#fff"
         android:inputType="textPersonName"
-        android:hint="Usuario" />
+        android:hint="Usuario"
+        android:textColorHint="#fff"/>
 
     <EditText
         android:id="@+id/pass"
@@ -25,6 +28,8 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="64dp"
         android:hint="Contraseña"
+        android:textColorHint="#fff"
+        android:textColor="#fff"
         android:ems="10"
         android:inputType="textPassword" />
 
@@ -33,6 +38,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/pass"
+        android:backgroundTint="#00FFFF"
+        android:elegantTextHeight="true"
+        android:elevation="10dp"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="76dp"
         android:text="Ingresar" />
@@ -45,7 +53,11 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="81dp"
         android:textSize="30sp"
-        android:textColor="#000"
+        android:textColor="#fff"
+        android:shadowRadius="4"
+        android:shadowColor="#000"
+        android:shadowDy="3"
+        android:shadowDx="3"
         android:textStyle="bold"
         android:text="Reconocimiento Facial" />
 </RelativeLayout>

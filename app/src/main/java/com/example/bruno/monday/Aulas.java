@@ -22,10 +22,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.List;
-
-import com.example.bruno.monday.Aula;
-import com.google.gson.JsonObject;
 
 public class Aulas extends AppCompatActivity {
 
@@ -34,7 +30,7 @@ public class Aulas extends AppCompatActivity {
     RequestQueue rqservs;
     private String aulaselected ="";
 
-    private final String ENDPOINT= "http://192.168.1.12/pasantia/reliable/api/apiandroid/aulas.php";
+    private final String ENDPOINT= "http://ec2-18-216-84-204.us-east-2.compute.amazonaws.com/recfacial/api/apiandroid/aulas.php";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,7 +67,7 @@ public class Aulas extends AppCompatActivity {
     }
 
     public void choosePhoto(String aula){
-        Intent intent = new Intent(getApplicationContext(),Microsoft.class);
+        Intent intent = new Intent(getApplicationContext(),IBM.class);
         intent.putExtra("aula",aula);
         startActivity(intent);
     }

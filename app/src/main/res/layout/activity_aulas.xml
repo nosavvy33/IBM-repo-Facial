@@ -4,6 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#72bcd4"
+
     tools:context="com.example.bruno.monday.Aulas">
     <TextView
         android:id="@+id/textView"
@@ -13,7 +15,11 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="49dp"
         android:textSize="30sp"
-        android:textColor="#000"
+        android:textColor="#fff"
+        android:shadowRadius="4"
+        android:shadowColor="#000"
+        android:shadowDy="3"
+        android:shadowDx="3"
         android:textStyle="bold"
         android:text="Reconocimiento Facial" />
 
@@ -31,11 +37,15 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
+        android:backgroundTint="#00FFFF"
+        android:elegantTextHeight="true"
+        android:elevation="10dp"
         android:layout_marginBottom="76dp"
         android:text="Listo" />
 
     <TextView
         android:id="@+id/textView2"
+        android:textColor="#fff"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/textView"

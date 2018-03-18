@@ -3,18 +3,121 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:background="#72bcd4"
+
     android:layout_height="match_parent"
-    tools:context=".Microsoft">
+    tools:context=".IBM">
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_alignParentEnd="true"
+    android:layout_alignParentTop="true"
+    android:orientation="horizontal"
+    android:id="@+id/logos"
+    >
     <ImageView
+        android:id="@+id/lg_tecsup"
         android:layout_width="match_parent"
-        android:layout_height="fill_parent"
+        android:layout_height="100dp"
+        android:adjustViewBounds="false"
+        android:scaleType="fitXY"
+        android:src="@drawable/logo_tecsup"
+        android:layout_weight="1"
+    android:layout_marginTop="25dp"
+    />
+</LinearLayout>
+
+    <ImageView
         android:id="@+id/imageView1"
-        android:layout_above="@+id/button1" />
+        android:layout_width="match_parent"
+        android:layout_height="275dp"
+        android:layout_marginTop="25dp"
+        android:layout_below="@+id/logos"
+        />
+
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_alignParentEnd="true"
+    android:layout_above="@+id/button1"
+    android:layout_below="@+id/imageView1"
+    android:orientation="vertical"
+    android:layout_marginTop="24dp">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:orientation="horizontal"
+        android:layout_alignParentTop="true">
+    <TextView
+        android:id="@+id/person"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:textColor="#fff"
+        android:layout_above="@+id/button1"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="45dp"
+        android:layout_below="@+id/imageView1"
+        android:layout_marginLeft="16dp"
+        android:text="Alumno : " />
+    <TextView
+        android:id="@+id/varnombre"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/button1"
+        android:layout_weight="1"
+        android:textColor="#fff"
+        android:textAlignment="viewEnd"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="45dp"
+        android:layout_toEndOf="@+id/person"
+        android:textStyle="bold"
+        android:layout_below="@+id/imageView1"
+ />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:orientation="horizontal"
+        android:layout_alignParentTop="true">
+    <TextView
+        android:id="@+id/porcentaje"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/button1"
+        android:layout_marginBottom="30dp"
+        android:layout_weight="1"
+        android:textColor="#fff"
+        android:layout_marginLeft="16dp"
+        android:layout_alignParentStart="true"
+        android:text="Coeficiente de confianza : " />
+    <TextView
+        android:id="@+id/varporcentaje"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:textColor="#fff"
+        android:textAlignment="viewEnd"
+        android:layout_marginRight="40dp"
+
+        android:layout_above="@+id/button1"
+        android:layout_marginBottom="30dp"
+        android:layout_toEndOf="@+id/porcentaje"
+        android:textStyle="bold"
+        android:text=""/>
+    </LinearLayout>
+</LinearLayout>
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Ingresar foto"
+        android:backgroundTint="#00FFFF"
+        android:elegantTextHeight="true"
+        android:elevation="10dp"
         android:id="@+id/button1"
         android:layout_alignParentBottom="true" />
 </RelativeLayout>

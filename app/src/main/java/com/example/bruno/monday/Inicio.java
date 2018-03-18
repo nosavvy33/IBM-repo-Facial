@@ -56,10 +56,23 @@ public class Inicio extends AppCompatActivity {
                 if(usuario.equals("") || contra.equals("")){
                     Toast.makeText(getApplicationContext(),"Complete sus credenciales",Toast.LENGTH_SHORT).show();
                 }else{
-                    login(usuario,contra);
+                    //login(usuario,contra);
+                    demologin(usuario,contra,user,pass);
                 }
             }
         });
+    }
+
+    public void demologin(String u, String p, EditText us, EditText pa){
+        if(u.equals("udevfacial") && p.equals("123")){
+            Intent intent = new Intent(getApplicationContext(),Aulas.class);
+            startActivity(intent);
+        }else{
+            Toast.makeText(getApplicationContext(),"Credenciales inválidas, inténtelo de nuevo",Toast.LENGTH_SHORT).show();
+            us.setText("");
+            pa.setText("");
+        }
+
     }
 
     public void login(String us, String co){

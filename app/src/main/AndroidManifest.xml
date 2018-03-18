@@ -19,7 +19,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".Aulas" />
-        <activity android:name=".Microsoft"></activity>
+        <activity android:name=".IBM" android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>

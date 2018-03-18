@@ -30,13 +30,19 @@ import com.microsoft.projectoxford.face.rest.ClientException;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
-public class Microsoft extends Activity {
+public class IBM extends Activity {
+
+    TextView txtpersona;
+    TextView txtvarpersona;
+    TextView txtporcentaje;
+    TextView txtvarporcentaje;
 
     RequestQueue rqservs;
-    private final String ENDPOINTCANDIDATE = "http://192.168.1.12/pasantia/reliable/api/apiandroid/encontrarcandidato.php";
+    private final String ENDPOINTCANDIDATE = "http://ec2-18-216-84-204.us-east-2.compute.amazonaws.com/recfacial/api/apiandroid/encontrarcandidato.php";
     private FaceServiceClient faceServiceClient =
-            new FaceServiceRestClient("https://westcentralus.api.cognitive.microsoft.com/face/v1.0", "d51f69b3fcb74199aac608a19b165a28");
+            new FaceServiceRestClient("https://westcentralus.api.cognitive.microsoft.com/face/v1.0", "11131afade8d4760865c7db0715c87ee");
     private final int PICK_IMAGE = 1;
     private ProgressDialog detectionProgressDialog;
     public Face[] finalface = new Face[1];
@@ -46,6 +52,14 @@ public class Microsoft extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_microsoft);
         Button button1 = (Button) findViewById(R.id.button1);
+        txtpersona = (TextView) findViewById(R.id.person);
+        txtvarpersona = (TextView) findViewById(R.id.varnombre);
+        txtporcentaje = (TextView) findViewById(R.id.porcentaje);
+        txtvarporcentaje = (TextView) findViewById(R.id.varporcentaje);
+        txtvarporcentaje.setVisibility(View.INVISIBLE);
+        txtporcentaje.setVisibility(View.INVISIBLE);
+        txtvarpersona.setVisibility(View.INVISIBLE);
+        txtpersona.setVisibility(View.INVISIBLE);
         rqservs = Volley.newRequestQueue(this);
 
         aula = getIntent().getStringExtra("aula");
@@ -90,7 +104,7 @@ public class Microsoft extends Activity {
                     @Override
                     protected Face[] doInBackground(InputStream... params) {
                         try {
-                            publishProgress("Detecting...");
+                            publishProgress("Detectando...");
                             Face[] result = faceServiceClient.detect(
                                     params[0],
                                     true,         // returnFaceId
@@ -98,7 +112,7 @@ public class Microsoft extends Activity {
                                     null           // returnFaceAttributes: a string like "age, gender"
                             );
                             if (result == null) {
-                                publishProgress("Detection Finished. Nothing detected");
+                                publishProgress("Ningún resultado");
                                 return null;
                             }
                             publishProgress(
@@ -106,7 +120,7 @@ public class Microsoft extends Activity {
                                             result.length));
                             return result;
                         } catch (Exception e) {
-                            publishProgress("Detection failed");
+                            publishProgress("Error de detección de rostro");
                             return null;
                         }
                     }
@@ -125,18 +139,22 @@ public class Microsoft extends Activity {
 
                     @Override
                     protected void onPostExecute(Face[] result) {
+    try {
+        detectionProgressDialog.dismiss();
+        if (result == null) return;
+        ImageView imageView = (ImageView) findViewById(R.id.imageView1);
 
-                        detectionProgressDialog.dismiss();
-                        if (result == null) return;
-                        ImageView imageView = (ImageView) findViewById(R.id.imageView1);
-
-                        imageView.setImageBitmap(drawFaceRectanglesOnBitmap(imageBitmap, result));
-                        Log.e("FACEID EN POSTEXECUTE ", String.valueOf(result[0].faceId)+String.valueOf(result.length));
-                        finalface[0] = result[0];
-                        //ff(result);
-                        imageBitmap.recycle();
-                        identifying(result);
-                        //identifying(finalface);
+        imageView.setImageBitmap(drawFaceRectanglesOnBitmap(imageBitmap, result));
+        Log.e("FACEID EN POSTEXECUTE ", String.valueOf(result[0].faceId) + String.valueOf(result.length));
+        finalface[0] = result[0];
+        //ff(result);
+        imageBitmap.recycle();
+        identifying(result);
+        //identifying(finalface);
+    }catch(ArrayIndexOutOfBoundsException e){
+        txtvarpersona.setVisibility(View.VISIBLE);
+        txtvarpersona.setText("No se pudo detectar ningún rostro, por favor intente con otra foto");
+    }
                     }
                 };
         detectTask.execute(inputStream);
@@ -183,12 +201,12 @@ public class Microsoft extends Activity {
                 try {
                     UUID[] idface = new UUID[1];
                     idface[0] = faces[0].faceId;
-                    publishProgress("Detecting...");
+                    publishProgress("Detectando...");
                     IdentifyResult[] result = faceServiceClient.identity(
                             aula, idface, 1
                     );
                     if (result == null) {
-                        publishProgress("Detection Finished. Nothing detected");
+                        publishProgress("Ningún resultado");
                         return null;
                     }
                     publishProgress(
@@ -197,7 +215,7 @@ public class Microsoft extends Activity {
                     return result;
                 } catch (Exception e) {
                     Log.e("error",e.getMessage());
-                    publishProgress("Detection failed");
+                    publishProgress("Error de detección de rostro");
                     return null;
                 }
             }
@@ -216,30 +234,45 @@ public class Microsoft extends Activity {
 
             @Override
             protected void onPostExecute(IdentifyResult[] result) {
-                if(result == null){
-                    Log.e("sry","nadin");
-                }else {
-                    detectionProgressDialog.dismiss();
-                    List<Candidate> arr = new ArrayList<>();
-                    Log.e("length de  ", String.valueOf(result.length));
-                    for (IdentifyResult i : result) {
-                        arr = i.candidates;
-                        Log.e("IDENTITY RESULT", String.valueOf(i.faceId));
+                try {
+                    if (result == null) {
+                        Log.e("sry", "nadin");
+                    } else {
+                        detectionProgressDialog.dismiss();
+                        List<Candidate> arr = new ArrayList<>();
+                        Log.e("length de  ", String.valueOf(result.length));
+                        for (IdentifyResult i : result) {
+                            arr = i.candidates;
+                            Log.e("IDENTITY RESULT", String.valueOf(i.faceId));
+                        }
+                        Log.e("CON CONFIANZA ", String.valueOf(arr.get(0).confidence) + "\t" + String.valueOf(arr.get(0).personId));
+                        String conf = String.valueOf(arr.get(0).confidence);
+                        findPerson(String.valueOf(arr.get(0).personId), conf);
                     }
-                    Log.e("CON CONFIANZA ", String.valueOf(arr.get(0).confidence) + "\t" + String.valueOf(arr.get(0).personId));
-                findPerson(String.valueOf(arr.get(0).personId));
+                }catch (IndexOutOfBoundsException e){
+                    txtpersona.setVisibility(View.VISIBLE);
+                    txtpersona.setText("No existen resultados, intente con otra foto");
+                    txtvarpersona.setText("");
+                    txtporcentaje.setText("");
+                    txtvarporcentaje.setText("");
                 }
                 }
         };
         atask.execute("");
     }
 
-    public void findPerson(String personid){
+    public void findPerson(String personid, final String confianza){
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, ENDPOINTCANDIDATE + "?personid=" + personid, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 try {
-                    Toast.makeText(getApplicationContext(),"Hola "+response.getString("nombre")+" "+response.getString("paterno"),Toast.LENGTH_LONG).show();
+                    //Toast.makeText(getApplicationContext(),"Hola "+response.getString("nombre")+" "+response.getString("paterno"),Toast.LENGTH_LONG).show();
+                    txtpersona.setVisibility(View.VISIBLE);
+                    txtvarpersona.setVisibility(View.VISIBLE);
+                txtvarpersona.setText(response.getString("nombre")+" "+response.getString("paterno"));
+                    txtporcentaje.setVisibility(View.VISIBLE);
+                    txtvarporcentaje.setText(confianza);
+                    txtvarporcentaje.setVisibility(View.VISIBLE);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
